@@ -9,6 +9,7 @@ student_answers.append(test_case_1)
 test_case_2 = A1.subtract(14, 2)
 student_answers.append(test_case_2)
 
+
 print(actual_answers)
 print(student_answers)
 

@@ -14,7 +14,7 @@ def multiply(num1, num2):
     try:
         multiplication = num1 * num2
     except: 
-        print("error")
+        print("error in multiplication")
         multiplication =0
     return multiplication
 
@@ -31,6 +31,20 @@ def divide(num1, num2):
             print("can't devide with zero")
             division =0
     except :
-        print("error")
+        print("error in division")
         division = 0 
     return division
+
+# Function to add power function
+#You cant use the inbuilt python function x ** y . Write your own function
+def power(num1, num2): #num1 ^ num2
+	#DivisionLogic 
+    try:
+        power = 1
+        for i in range(int(num2)):
+            power *= num1
+    except :
+        print("error in power")
+        power = 0
+
+    return power
