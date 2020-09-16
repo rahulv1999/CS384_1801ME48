@@ -49,13 +49,13 @@ def power(num1, num2): #num1 ^ num2
 
     return power
 
+
+
+
+
+
 # Python 3 program to print GP.  geometric Progression
 #You cant use the inbuilt python function. Write your own function
-
-
-
-
-
 def printGP(a, r, n): 
     gp=[]
     try:
@@ -74,6 +74,8 @@ def printGP(a, r, n):
     return gp 
 
 
+# Python 3 program to print AP.  geometric Progression
+#You cant use the inbuilt python function. Write your own function
 def printAP(a, d, n):
     ap =[]
     try:
@@ -90,3 +92,25 @@ def printAP(a, d, n):
         ap.clear
         ap.append(0)
     return ap
+
+
+def printHP(a, d, n):
+    hp = []
+    try:
+        if n>0:
+            
+            for i in range(n):
+                if a!=0:
+                    hp.append(round(1/a,3))
+                    a +=d
+                else:
+                    print(f'{i+1} value of term is becoming 1/0 not allowed')
+                    break
+        else:
+            print("error in printHp n should be >0")
+            hp.append(0)           
+    except :
+        print("error in printHp")
+        hp.clear
+        hp.append(0)
+    return hp    
