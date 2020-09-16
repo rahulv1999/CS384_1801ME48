@@ -48,3 +48,30 @@ def power(num1, num2): #num1 ^ num2
         power = 0
 
     return power
+
+# Python 3 program to print GP.  geometric Progression
+#You cant use the inbuilt python function. Write your own function
+
+
+
+
+
+def printGP(a, r, n): 
+    gp=[]
+    try:
+        if n>0:
+            gp.append(a)
+            for i in range(n-1):
+                a *= r
+                gp.append(a) 
+        else:
+            print("error in printGp n should be >0")
+            gp.append(0)
+    except:
+        print("error in printGp")
+        gp.clear
+        gp.append(0)
+    return gp 
+
+
+
