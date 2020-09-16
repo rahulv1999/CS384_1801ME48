@@ -9,7 +9,7 @@ student_answers.append(test_case_1)
 test_case_2 = A1.subtract(14, 2)
 student_answers.append(test_case_2)
 
-print(A1.printGP(-2.1,3.2,3))
+print(A1.printAP(1,3,5.5))
 
 print(actual_answers)
 print(student_answers)

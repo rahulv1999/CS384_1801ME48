@@ -60,10 +60,10 @@ def printGP(a, r, n):
     gp=[]
     try:
         if n>0:
-            gp.append(a)
+            gp.append(round(a,3))
             for i in range(n-1):
                 a *= r
-                gp.append(a) 
+                gp.append(round(a,3)) 
         else:
             print("error in printGp n should be >0")
             gp.append(0)
@@ -74,4 +74,19 @@ def printGP(a, r, n):
     return gp 
 
 
-
+def printAP(a, d, n):
+    ap =[]
+    try:
+        if n>0:
+            ap.append(a)
+            for i in range(n-1):
+                a +=d
+                ap.append(a)
+        else:
+            print("error in printAp n should be >0")
+            ap.append(0)           
+    except :
+        print("error in printAp")
+        ap.clear
+        ap.append(0)
+    return ap
