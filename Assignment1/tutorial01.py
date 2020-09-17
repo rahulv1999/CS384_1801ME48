@@ -1,6 +1,6 @@
 # Function to add two numbers 
 def add(num1, num2):
-    addition = num1 + num2
+    addition = float(num1) + num2
     if type(addition) != float and type(addition) != int:
         addition = 0 
         print("not valid inputs for addition")
@@ -8,7 +8,7 @@ def add(num1, num2):
 
 # Function to subtract two numbers 
 def subtract(num1, num2): 
-    subtraction = num1 - num2
+    subtraction = num1 - float(num2)
     if type(subtraction) != float and type(subtraction) != int:
         subtraction = 0 
         print("not valid inputs for subtraction")    
@@ -18,7 +18,7 @@ def subtract(num1, num2):
 def multiply(num1, num2): 
     #Multiplication Logic
     try:
-        multiplication = num1 * num2
+        multiplication = float(num1) * float(num2)
     except: 
         print("error in multiplication")
         multiplication =0
@@ -33,7 +33,7 @@ def divide(num1, num2):
     #Devide logic
     try:
         if num2!=0:
-            division = num1/num2
+            division = num1/float(num2)
         else:
             print("can't devide with zero")
             division =0
@@ -51,10 +51,10 @@ def power(num1, num2): #num1 ^ num2
         power = 0
         return power
     try:
-        power = 1
+        power = 1.0
         if num2>0:
             for i in range(int(num2)):
-                power *= num1
+                power *= float(num1)
         else:
             for i in range(int(abs(num2))):
                 power /= num1            
@@ -76,10 +76,10 @@ def printGP(a, r, n):
     gp=[]
     try:
         if n>0 and float(n) != float(int(n)):
-            gp.append(round(a,3))
+            gp.append(round(float(a),3))
             for i in range(int(n)-1):
                 a *= r
-                gp.append(round(a,3)) 
+                gp.append(round(float(a),3)) 
         else:
             print("error in printGp n should be >0  and a whole number ")
             gp.append(0)
@@ -96,9 +96,9 @@ def printAP(a, d, n):
     ap =[]
     try:
         if n>0 and float(n) != float(int(n)):
-            ap.append(a)
+            ap.append(float(a))
             for i in range(int(n)-1):
-                a +=d
+                a +=float(d)
                 ap.append(a)
         else:
             print("error in printAp n should be >0 and a whole number ")
@@ -118,7 +118,7 @@ def printHP(a, d, n):
             
             for i in range(int(n)):
                 if a!=0:
-                    hp.append(round(1/a,3))
+                    hp.append(round(1.0/a,3))
                     a +=d
                 else:
                     print(f'{i+1} value of term is becoming 1/0 not allowed')
