@@ -1,11 +1,8 @@
 # All decimal 3 places
-
+import math
 # Function to compute mean
 def mean(first_list):
     # mean Logic 
-    for i in first_list:
-        if (type(i) != float and type(i) != int):
-            return 0
     mean_value = round(summation(first_list)/len(first_list),3)
     return mean_value
 
@@ -31,6 +28,7 @@ def variance(first_list):
 # Function to compute RMSE. You cant use Python functions
 def rmse(first_list, second_list):
     # RMSE Logic
+    rmse_value = round(math.sqrt(mse(first_list,second_list)),3)
     return rmse_value
 
 
