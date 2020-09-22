@@ -54,6 +54,13 @@ def mae(first_list, second_list):
 # Function to compute NSE. You cant use Python functions
 def nse(first_list, second_list):
     # nse Logic
+    if len(first_list) != len(second_list):
+        return 0
+    for i,j in first_list, second_list:
+        if (type(i) != float and type(i) != int) or (type(j) != float and type(j) != int) :
+            return 0
+    nse_value = round(1- (mse(first_list,second_list)/mse(first_list,[mean(first_list) for i in first_list])),3)
+
     return nse_value
 
 
@@ -89,4 +96,3 @@ def summation(first_list):
     summation_value = round([sum + i for i in first_list ][-1],3)
     return summation_value
 
-print(summation([1,2,3]))
