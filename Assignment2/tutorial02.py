@@ -3,6 +3,9 @@
 # Function to compute mean
 def mean(first_list):
     # mean Logic 
+    for i in first_list:
+        if (type(i) != float and type(i) != int):
+            return 0
     mean_value = round(summation(first_list)/len(first_list),3)
     return mean_value
 
@@ -34,6 +37,13 @@ def rmse(first_list, second_list):
 # Function to compute mse. You cant use Python functions
 def mse(first_list, second_list):
     # mse Logic
+    if len(first_list) != len(second_list):
+        return 0
+    for i,j in first_list, second_list:
+        if (type(i) != float and type(i) != int) or (type(j) != float and type(j) != int) :
+            return 0
+
+    mse_value = round(summation([(first_list[i] - second_list[i])**2 for i in range(len(first_list))])/len(first_list),3)
     return mse_value
 
 
