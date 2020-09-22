@@ -84,6 +84,9 @@ def kurtosis(first_list):
 # Function to compute sum. You cant use Python functions
 def summation(first_list):
 # sum Logic
+    for i in first_list:
+        if (type(i) != float and type(i) != int):
+            return 0
     sum =0
     summation_value = round([sum + i for i in first_list ][-1],3)
     return summation_value
