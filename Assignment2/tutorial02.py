@@ -2,7 +2,10 @@
 import math
 # Function to compute mean
 def mean(first_list):
-    # mean Logic 
+    # mean Logic
+    for i in first_list:
+        if (type(i) != float and type(i) != int):
+            return 0
     mean_value = round(summation(first_list)/len(first_list),3)
     return mean_value
 
@@ -67,6 +70,12 @@ def nse(first_list, second_list):
 # Function to compute Pearson correlation coefficient. You cant use Python functions
 def pcc(first_list, second_list):
     # nse Logic
+    if len(first_list) != len(second_list):
+        return 0
+    for i,j in first_list, second_list:
+        if (type(i) != float and type(i) != int) or (type(j) != float and type(j) != int) :
+            return 0
+    pcc_value = round(summation([(first_list[i] - mean(first_list))*(second_list[i] - mean(second_list)) for i in len(first_list)])/((rmse(first_list, [mean(first_list) for i in first_list])) * (rmse(second_list, [mean(second_list) for i in second_list]) * len(first_list) )),3)
     return pcc_value
 
 
