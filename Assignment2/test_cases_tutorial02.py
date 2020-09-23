@@ -29,7 +29,7 @@ student_answers.append(test_case_6)
 
 test_case_7 = A2.rmse(x, y)
 student_answers.append(test_case_7)
-
+print("x and y",x,'\n',y)
 test_case_8 = A2.mse(x, y)
 student_answers.append(test_case_8)
 

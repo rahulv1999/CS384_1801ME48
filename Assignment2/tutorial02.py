@@ -8,6 +8,7 @@ def summation(first_list):
             return 0
     sum =0
     summation_value = round([sum := sum + i for i in first_list ][-1],2) #used walrus opperator 
+
     return summation_value
 
 
@@ -30,12 +31,13 @@ def median(first_list):
     for i in first_list:
         if not isinstance(i,float) and not isinstance(i,int):
             return 0
-    first_list = sorting(first_list)
+    f = first_list.copy()
+    f = sorting(f)
     l = len(first_list)
     if l%2!=0:
-        median_value = (first_list[int(l/2)] + first_list[int(l/2) + 1])/2
+        median_value = (f[int(l/2)] + f[int(l/2) + 1])/2
     else:
-        median_value = first_list[int(l/2)]
+        median_value = f[int(l/2)]
     median_value = round(median_value,2)
     return median_value
 
@@ -81,9 +83,9 @@ def mse(first_list, second_list):
     for i,j in zip(first_list, second_list):
         if (not isinstance(i,float) and not isinstance(i,int)) or ( not isinstance(j,float) and not isinstance(j,int)) :
             return 0
-
+    #print("f and  s ",first_list,'\n',second_list)
     mse_value = round(summation([(first_list[i] - second_list[i])**2 for i in range(len(first_list))])/len(first_list),2)
-
+    #print("mse array :",[(first_list[i] - second_list[i])**2 for i in range(len(first_list))])
     return mse_value
 
 
@@ -95,6 +97,7 @@ def mae(first_list, second_list):
     for i,j in zip(first_list, second_list):
         if (not isinstance(i,float) and not isinstance(i,int)) or ( not isinstance(j,float) and not isinstance(j,int)) :
             return 0
+    
     mae_value = round(summation([abs(first_list[i]-second_list[i]) for i  in range(len(first_list))])/len(first_list),2)
     return mae_value
 
@@ -120,7 +123,7 @@ def pcc(first_list, second_list):
     for i,j in zip(first_list, second_list):
         if (not isinstance(i,float) and not isinstance(i,int)) or ( not isinstance(j,float) and not isinstance(j,int)) :
             return 0
-    pcc_value = round(summation([(first_list[i] - mean(first_list))*(second_list[i] - mean(second_list)) for i in range(len(first_list))])/((rmse(first_list, [mean(first_list) for i in first_list])) * (rmse(second_list, [mean(second_list) for i in second_list]) * len(first_list) )),2)
+    pcc_value = round(summation([(first_list[i] - mean(first_list))*(second_list[i] - mean(second_list)) for i in range(len(first_list))])/((rmse(first_list, [mean(first_list) for i in first_list])) * (rmse(second_list, [mean(second_list) for i in second_list]))* len(first_list)),2)
     return pcc_value
 
 
