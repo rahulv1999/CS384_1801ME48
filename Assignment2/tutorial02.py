@@ -1,6 +1,5 @@
 # All decimal 3 places
 import math
-import numpy as np
 # Function to compute sum. You cant use Python functions
 def summation(first_list):
 # sum Logic
