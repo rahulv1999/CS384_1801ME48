@@ -138,6 +138,7 @@ def kurtosis(first_list):
         if (type(i) != float and type(i) != int):
             return 0
     s = standard_deviation(first_list)
+    
     kurtosis_value = round(summation([(x - mean([first_list]))**4/s for x in first_list ])/len(first_list),3)
     return kurtosis_value
 
