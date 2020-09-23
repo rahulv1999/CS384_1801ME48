@@ -1,6 +1,6 @@
 import tutorial02 as A2
 
-actual_answers = [0.55, 0.64, 0.30, 0.09, -0.38, 1.99, 0.47, 0.22, 0.40, -1.47, 0.05, 0, 0, 0]
+actual_answers = [0.56, 0.65, 0.30, 0.09, -0.38, 1.99, 0.47, 0.22, 0.40, -1.47, 0.05, 0, 0, 0]
 student_answers = []
 
 import numpy as np
@@ -62,7 +62,7 @@ total_test_cases = len(actual_answers)
 count_of_correct_test_cases = 0
 
 for x, y in zip(actual_answers, student_answers):
-    if x == round(y,2):
+    if x == y:
         count_of_correct_test_cases += 1
 
 print(f"Test Cases Passed = '{count_of_correct_test_cases}'  / '{total_test_cases}'")

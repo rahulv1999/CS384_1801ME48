@@ -84,6 +84,7 @@ def mse(first_list, second_list):
             return 0
 
     mse_value = round(summation([(first_list[i] - second_list[i])**2 for i in range(len(first_list))])/len(first_list),2)
+
     return mse_value
 
 
@@ -131,9 +132,10 @@ def skewness(first_list):
         if not isinstance(i,float) and not isinstance(i,int):
             return 0
     s = standard_deviation(first_list)
-    skewness_value = round(summation([((x - mean([first_list]))**3/s) for x in first_list ])/len(first_list),2)
+    skewness_value = round(summation([(((x - mean(first_list))/s)**3) for x in first_list ])/len(first_list),2)
     return skewness_value
     
+
 def sorting(first_list):
     # Sorting Logic
     for i in first_list:
@@ -155,7 +157,7 @@ def kurtosis(first_list):
             return 0
     s = standard_deviation(first_list)
     
-    kurtosis_value = round(summation([(x - mean([first_list]))**4/s for x in first_list ])/len(first_list),2)
+    kurtosis_value = round(summation([((x - mean(first_list))/s)**4 for x in first_list ])/len(first_list),2)
     return kurtosis_value
 
 
