@@ -103,8 +103,21 @@ def email_domain_extract():
 
 
 def gender():
-    # Read csv and process
-    pass
+    with open('studentinfo_cs384.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        if not os.path.exists('gender'):
+            os.mkdir('gender')
+        for row in reader:
+            l = list(row.values())
+            head = list(row.keys())
+            gender = row['gender'].lower()
+            with open('gender/'+gender+ '.csv', mode = 'a') as f:
+                    f_write = csv.writer(f, delimiter=',',lineterminator='\r')
+                    if os.path.getsize('gender/'+ gender + '.csv')==0:
+                        f_write.writerow(head) 
+                    f_write.writerow(l)
+            f.close()
+    csvfile.close()
 
 
 def dob():
@@ -128,4 +141,4 @@ def new_file_sort():
     pass
 
 if __name__ == "__main__":
-    email_domain_extract()
+    gender()
