@@ -55,8 +55,22 @@ def course():
 
 
 def country():
-    # Read csv and process
-    pass
+    with open('studentinfo_cs384.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        if not os.path.exists('country'):
+            os.mkdir('country')
+        for row in reader:
+            l = list(row.values())
+            head = list(row.keys())
+            with open('country/'+row['country']+ '.csv', mode = 'a') as f:
+                f_write = csv.writer(f, delimiter=',',lineterminator='\r')
+                if os.path.getsize('country/'+row['country'] + '.csv')==0:
+                  f_write.writerow(head) 
+                f_write.writerow(l)
+            f.close()
+    csvfile.close()
+
+
 
 
 def email_domain_extract():
@@ -90,4 +104,4 @@ def new_file_sort():
     pass
 
 # if __name__ == "__main__":
-#     course()
+#     country()
