@@ -121,8 +121,29 @@ def gender():
 
 
 def dob():
-    # Read csv and process
-    pass
+    with open('studentinfo_cs384.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        if not os.path.exists('dob'):
+            os.mkdir('dob')
+        for row in reader:
+            l = list(row.values())
+            head = list(row.keys())
+            yr = int(row['dob'].split('-')[-1])
+            k = int(yr)%10
+            if k>4:
+                name = 'bday_' + str(yr - k + 5) + '_' + str(yr - k + 9)
+            else:
+                name = 'bday_' + str(yr - k ) + '_' + str(yr - k + 4)
+            if yr > 2014:
+                name = 'bday_2015_2020'
+            with open('dob/'+name+ '.csv', mode = 'a') as f:
+                    f_write = csv.writer(f, delimiter=',',lineterminator='\r')
+                    if os.path.getsize('dob/'+name+ '.csv')==0:
+                        f_write.writerow(head) 
+                    f_write.writerow(l)
+            f.close()
+        
+
 
 
 def state():
@@ -141,4 +162,4 @@ def new_file_sort():
     pass
 
 if __name__ == "__main__":
-    gender()
+    dob()
