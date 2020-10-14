@@ -6,16 +6,18 @@ import shutil
 
 
 def course():
-    if os.path.exists('course'):
-        shutil.rmtree('course')
+    if not os.path.exists('analytics'):
+        os.mkdir('analytics')
+    if os.path.exists('analytics/course'):
+        shutil.rmtree('analytics/course')
     d = {'01':'btech',
     '11':'mtech',
     '21':'phd',
     '12':'msc'}
     with open('studentinfo_cs384.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
-        if not os.path.exists('course'):
-            os.mkdir('course')
+        if not os.path.exists('analytics/course'):
+            os.mkdir('analytics/course')
         for row in reader:
             if len(row)==0:
                 print(1)
@@ -27,9 +29,9 @@ def course():
             if str(row['id'][2:4]) in list(d.keys()):
                 degree = d[str(row['id'][2:4])]
             else:
-                with open('course/' + 'misc.csv' , mode = 'a') as f:
+                with open('analytics/course/' + 'misc.csv' , mode = 'a') as f:
                     f_write = csv.writer(f, delimiter=',',lineterminator='\r')
-                    if os.path.getsize('course/' + 'misc.csv')==0:
+                    if os.path.getsize('analytics/course/' + 'misc.csv')==0:
                         f_write.writerow(head)
                     f_write.writerow(l)
                 f.close()
@@ -38,20 +40,20 @@ def course():
             p = re.compile(r'\d\d\d\d\D\D\d\d')
             k = re.fullmatch(p,row['id'])
             if k:
-                if not os.path.exists('course/'+ stream):
-                    os.mkdir('course/'+ stream) 
-                if not os.path.exists('course/'+ stream + '/' + degree):
-                    os.mkdir('course/'+ stream + '/' + degree ) 
-                with open('course/'+ stream + '/' + degree + '/' + csv_name , mode = 'a') as f:
+                if not os.path.exists('analytics/course/'+ stream):
+                    os.mkdir('analytics/course/'+ stream) 
+                if not os.path.exists('analytics/course/'+ stream + '/' + degree):
+                    os.mkdir('analytics/course/'+ stream + '/' + degree ) 
+                with open('analytics/course/'+ stream + '/' + degree + '/' + csv_name , mode = 'a') as f:
                     f_write = csv.writer(f, delimiter=',',lineterminator='\r')
-                    if os.path.getsize('course/'+ stream + '/' + degree + '/' + csv_name)==0:
+                    if os.path.getsize('analytics/course/'+ stream + '/' + degree + '/' + csv_name)==0:
                         f_write.writerow(head)
                     f_write.writerow(l)
                 f.close()
             else:
-                with open('course/' + 'misc.csv' , mode = 'a') as f:
+                with open('analytics/course/' + 'misc.csv' , mode = 'a') as f:
                     f_write = csv.writer(f, delimiter=',',lineterminator='\r')
-                    if os.path.getsize('course/' + 'misc.csv')==0:
+                    if os.path.getsize('analytics/course/' + 'misc.csv')==0:
                         f_write.writerow(head)
                     f_write.writerow(l)
                 f.close()
@@ -59,18 +61,20 @@ def course():
 
 
 def country():
-    if os.path.exists('country'):
-        shutil.rmtree('country')    
+    if not os.path.exists('analytics'):
+        os.mkdir('analytics')    
+    if os.path.exists('analytics/country'):
+        shutil.rmtree('analytics/country')    
     with open('studentinfo_cs384.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
-        if not os.path.exists('country'):
-            os.mkdir('country')
+        if not os.path.exists('analytics/country'):
+            os.mkdir('analytics/country')
         for row in reader:
             l = list(row.values())
             head = list(row.keys())
-            with open('country/'+row['country'].lower()+ '.csv', mode = 'a') as f:
+            with open('analytics/country/'+row['country'].lower()+ '.csv', mode = 'a') as f:
                 f_write = csv.writer(f, delimiter=',',lineterminator='\r')
-                if os.path.getsize('country/'+row['country'].lower() + '.csv')==0:
+                if os.path.getsize('analytics/country/'+row['country'].lower() + '.csv')==0:
                   f_write.writerow(head) 
                 f_write.writerow(l)
             f.close()
@@ -80,28 +84,30 @@ def country():
 
 
 def email_domain_extract():
-    if os.path.exists('email_domain_extract'):
-        shutil.rmtree('email_domain_extract')
+    if not os.path.exists('analytics'):
+        os.mkdir('analytics')
+    if os.path.exists('analytics/email'):
+        shutil.rmtree('analytics/email')
     with open('studentinfo_cs384.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
-        if not os.path.exists('email'):
-            os.mkdir('email')
+        if not os.path.exists('analytics/email'):
+            os.mkdir('analytics/email')
         for row in reader:
             l = list(row.values())
             head = list(row.keys())
             if '@' in row['email'] and '.' in row['email']:
                 domain = row['email'].split('@')[1].split('.')[0]
-                with open('email/'+domain+ '.csv', mode = 'a') as f:
+                with open('analytics/email/'+domain+ '.csv', mode = 'a') as f:
                     f_write = csv.writer(f, delimiter=',',lineterminator='\r')
-                    if os.path.getsize('email/'+ domain + '.csv')==0:
+                    if os.path.getsize('analytics/email/'+ domain + '.csv')==0:
                         f_write.writerow(head) 
                     f_write.writerow(l)
                 f.close()
 
             else:
-                with open('email/'+'misc'+ '.csv', mode = 'a') as f:
+                with open('analytics/email/'+'misc'+ '.csv', mode = 'a') as f:
                     f_write = csv.writer(f, delimiter=',',lineterminator='\r')
-                    if os.path.getsize('email/'+ domain + '.csv')==0:
+                    if os.path.getsize('analytics/email/'+ domain + '.csv')==0:
                         f_write.writerow(head) 
                     f_write.writerow(l)
                 f.close()
@@ -111,19 +117,21 @@ def email_domain_extract():
 
 
 def gender():
-    if os.path.exists('gender'):
-        shutil.rmtree('gender')
+    if not os.path.exists('analytics'):
+        os.mkdir('analytics')
+    if os.path.exists('analytics/gender'):
+        shutil.rmtree('analytics/gender')
     with open('studentinfo_cs384.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
-        if not os.path.exists('gender'):
-            os.mkdir('gender')
+        if not os.path.exists('analytics/gender'):
+            os.mkdir('analytics/gender')
         for row in reader:
             l = list(row.values())
             head = list(row.keys())
             gender = row['gender'].lower()
-            with open('gender/'+gender+ '.csv', mode = 'a') as f:
+            with open('analytics/gender/'+gender+ '.csv', mode = 'a') as f:
                     f_write = csv.writer(f, delimiter=',',lineterminator='\r')
-                    if os.path.getsize('gender/'+ gender + '.csv')==0:
+                    if os.path.getsize('analytics/gender/'+ gender + '.csv')==0:
                         f_write.writerow(head) 
                     f_write.writerow(l)
             f.close()
@@ -131,12 +139,14 @@ def gender():
 
 
 def dob():
-    if os.path.exists('dob'):
-        shutil.rmtree('dob')
+    if not os.path.exists('analytics'):
+        os.mkdir('analytics')
+    if os.path.exists('analytics/dob'):
+        shutil.rmtree('analytics/dob')
     with open('studentinfo_cs384.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
-        if not os.path.exists('dob'):
-            os.mkdir('dob')
+        if not os.path.exists('analytics/dob'):
+            os.mkdir('analytics/dob')
         for row in reader:
             l = list(row.values())
             head = list(row.keys())
@@ -148,9 +158,9 @@ def dob():
                 name = 'bday_' + str(yr - k ) + '_' + str(yr - k + 4)
             if yr > 2014:
                 name = 'bday_2015_2020'
-            with open('dob/'+name+ '.csv', mode = 'a') as f:
+            with open('analytics/dob/'+name+ '.csv', mode = 'a') as f:
                     f_write = csv.writer(f, delimiter=',',lineterminator='\r')
-                    if os.path.getsize('dob/'+name+ '.csv')==0:
+                    if os.path.getsize('analytics/dob/'+name+ '.csv')==0:
                         f_write.writerow(head) 
                     f_write.writerow(l)
             f.close()
@@ -159,18 +169,20 @@ def dob():
 
 
 def state():
-    if os.path.exists('state'):
-        shutil.rmtree('state')
+    if not os.path.exists('analytics'):
+        os.mkdir('analytics')
+    if os.path.exists('analytics/state'):
+        shutil.rmtree('analytics/state')
     with open('studentinfo_cs384.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
-        if not os.path.exists('state'):
-            os.mkdir('state')
+        if not os.path.exists('analytics/state'):
+            os.mkdir('analytics/state')
         for row in reader:
             l = list(row.values())
             head = list(row.keys())
-            with open('state/'+row['state'].lower()+ '.csv', mode = 'a') as f:
+            with open('analytics/state/'+row['state'].lower()+ '.csv', mode = 'a') as f:
                 f_write = csv.writer(f, delimiter=',',lineterminator='\r')
-                if os.path.getsize('state/'+row['state'].lower() + '.csv')==0:
+                if os.path.getsize('analytics/state/'+row['state'].lower() + '.csv')==0:
                   f_write.writerow(head) 
                 f_write.writerow(l)
             f.close()
@@ -178,18 +190,20 @@ def state():
 
 
 def blood_group():
-    if os.path.exists('blood_group'):
-        shutil.rmtree('blood_group')
+    if not os.path.exists('analytics'):
+        os.mkdir('analytics')
+    if os.path.exists('analytics/blood_group'):
+        shutil.rmtree('analytics/blood_group')
     with open('studentinfo_cs384.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
-        if not os.path.exists('blood_group'):
-            os.mkdir('blood_group')
+        if not os.path.exists('analytics/blood_group'):
+            os.mkdir('analytics/blood_group')
         for row in reader:
             l = list(row.values())
             head = list(row.keys())
-            with open('blood_group/'+row['blood_group']+ '.csv', mode = 'a') as f:
+            with open('analytics/blood_group/'+row['blood_group']+ '.csv', mode = 'a') as f:
                 f_write = csv.writer(f, delimiter=',',lineterminator='\r')
-                if os.path.getsize('blood_group/'+row['blood_group'] + '.csv')==0:
+                if os.path.getsize('analytics/blood_group/'+row['blood_group'] + '.csv')==0:
                     f_write.writerow(head) 
                 f_write.writerow(l)
             f.close()
@@ -198,6 +212,8 @@ def blood_group():
 
 # Create the new file here and also sort it in this function only.
 def new_file_sort():
+    if not os.path.exists('analytics'):
+        os.mkdir('analytics')
     new = []
     head = []
     with open('studentinfo_cs384.csv', newline='') as csvfile:
@@ -213,7 +229,7 @@ def new_file_sort():
             k.insert(2,' '.join(row['full_name'].split()[1:]))
             new.append(k)
     csvfile.close()
-    with open('studentinfo_cs384_names_split.csv', newline='') as f:
+    with open('analytics/studentinfo_cs384_names_split.csv', newline='',mode='w') as f:
         f_write = csv.writer(f, delimiter=',',lineterminator='\r')
         f_write.writerow(head)
         for i in new:
@@ -224,9 +240,12 @@ def new_file_sort():
     for i in new:
         dic[i[1]]='#$%^&*'.join(i)
     new = []
+    with open('analytics/studentinfo_cs384_names_split_sorted_first_name.csv', mode = 'w') as f:
+        print
+    f.close()
     for i in sorted(dic.items()):
         new.append(i[1].split('#$%^&*'))
-    with open('studentinfo_cs384_names_split_sorted_first_name.csv', mode = 'a') as f:
+    with open('analytics/studentinfo_cs384_names_split_sorted_first_name.csv', mode = 'a') as f:
         f_write = csv.writer(f, delimiter=',',lineterminator='\r')
         f_write.writerow(head)
         for i in new:
@@ -235,3 +254,15 @@ def new_file_sort():
 
 # if __name__ == "__main__":
 #     country()
+#     course()
+#     blood_group()
+#     new_file_sort()
+#     state()
+#     email_domain_extract()
+#     state()
+#     gender()
+#     dob()
+
+
+
+
