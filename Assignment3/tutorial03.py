@@ -1,9 +1,13 @@
 import csv
 import os
 import re
+import shutil
+
 
 
 def course():
+    if os.path.exists('course'):
+        shutil.rmtree('course')
     d = {'01':'btech',
     '11':'mtech',
     '21':'phd',
@@ -55,6 +59,8 @@ def course():
 
 
 def country():
+    if os.path.exists('country'):
+        shutil.rmtree('country')    
     with open('studentinfo_cs384.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         if not os.path.exists('country'):
@@ -74,6 +80,8 @@ def country():
 
 
 def email_domain_extract():
+    if os.path.exists('email_domain_extract'):
+        shutil.rmtree('email_domain_extract')
     with open('studentinfo_cs384.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         if not os.path.exists('email'):
@@ -103,6 +111,8 @@ def email_domain_extract():
 
 
 def gender():
+    if os.path.exists('gender'):
+        shutil.rmtree('gender')
     with open('studentinfo_cs384.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         if not os.path.exists('gender'):
@@ -121,6 +131,8 @@ def gender():
 
 
 def dob():
+    if os.path.exists('dob'):
+        shutil.rmtree('dob')
     with open('studentinfo_cs384.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         if not os.path.exists('dob'):
@@ -147,6 +159,8 @@ def dob():
 
 
 def state():
+    if os.path.exists('state'):
+        shutil.rmtree('state')
     with open('studentinfo_cs384.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         if not os.path.exists('state'):
@@ -164,6 +178,8 @@ def state():
 
 
 def blood_group():
+    if os.path.exists('blood_group'):
+        shutil.rmtree('blood_group')
     with open('studentinfo_cs384.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         if not os.path.exists('blood_group'):
@@ -218,4 +234,4 @@ def new_file_sort():
     f.close()
 
 # if __name__ == "__main__":
-#     new_file_sort()
+#     country()
