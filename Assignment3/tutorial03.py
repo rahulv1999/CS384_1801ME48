@@ -62,9 +62,9 @@ def country():
         for row in reader:
             l = list(row.values())
             head = list(row.keys())
-            with open('country/'+row['country']+ '.csv', mode = 'a') as f:
+            with open('country/'+row['country'].lower()+ '.csv', mode = 'a') as f:
                 f_write = csv.writer(f, delimiter=',',lineterminator='\r')
-                if os.path.getsize('country/'+row['country'] + '.csv')==0:
+                if os.path.getsize('country/'+row['country'].lower() + '.csv')==0:
                   f_write.writerow(head) 
                 f_write.writerow(l)
             f.close()
@@ -147,19 +147,75 @@ def dob():
 
 
 def state():
-    # Read csv and process
-    pass
+    with open('studentinfo_cs384.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        if not os.path.exists('state'):
+            os.mkdir('state')
+        for row in reader:
+            l = list(row.values())
+            head = list(row.keys())
+            with open('state/'+row['state'].lower()+ '.csv', mode = 'a') as f:
+                f_write = csv.writer(f, delimiter=',',lineterminator='\r')
+                if os.path.getsize('state/'+row['state'].lower() + '.csv')==0:
+                  f_write.writerow(head) 
+                f_write.writerow(l)
+            f.close()
+    csvfile.close()
 
 
 def blood_group():
-    # Read csv and process
-    pass
+    with open('studentinfo_cs384.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        if not os.path.exists('blood_group'):
+            os.mkdir('blood_group')
+        for row in reader:
+            l = list(row.values())
+            head = list(row.keys())
+            with open('blood_group/'+row['blood_group']+ '.csv', mode = 'a') as f:
+                f_write = csv.writer(f, delimiter=',',lineterminator='\r')
+                if os.path.getsize('blood_group/'+row['blood_group'] + '.csv')==0:
+                    f_write.writerow(head) 
+                f_write.writerow(l)
+            f.close()
+    csvfile.close()
 
 
 # Create the new file here and also sort it in this function only.
 def new_file_sort():
-    # Read csv and process
-    pass
+    new = []
+    head = []
+    with open('studentinfo_cs384.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)       
+        for row in reader:
+            head = list(row.keys())
+            del head[1]
+            head.insert(1,'first_name')
+            head.insert(2,'last_name')
+            k = list(row.values())
+            del k[1]
+            k.insert(1,row['full_name'].split()[0])
+            k.insert(2,' '.join(row['full_name'].split()[1:]))
+            new.append(k)
+    csvfile.close()
+    with open('studentinfo_cs384_names_split.csv', newline='') as f:
+        f_write = csv.writer(f, delimiter=',',lineterminator='\r')
+        f_write.writerow(head)
+        for i in new:
+            f_write.writerow(i)
+    f.close()
+    #sorting
+    dic = {}
+    for i in new:
+        dic[i[1]]='#$%^&*'.join(i)
+    new = []
+    for i in sorted(dic.items()):
+        new.append(i[1].split('#$%^&*'))
+    with open('studentinfo_cs384_names_split_sorted_first_name.csv', mode = 'a') as f:
+        f_write = csv.writer(f, delimiter=',',lineterminator='\r')
+        f_write.writerow(head)
+        for i in new:
+            f_write.writerow(i)
+    f.close()
 
-if __name__ == "__main__":
-    dob()
+# if __name__ == "__main__":
+#     new_file_sort()
