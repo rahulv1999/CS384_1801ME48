@@ -157,7 +157,8 @@ def dob():
         for row in reader:
             l = list(row.values())
             head = list(row.keys())
-            yr = int(row['dob'].split('-')[-1])
+            x = str(re.sub(r"\D","-",row['dob']))
+            yr = int(x.split('-')[-1])
             k = int(yr)%10
             if k>4:
                 name = 'bday_' + str(yr - k + 5) + '_' + str(yr - k + 9)
@@ -259,7 +260,7 @@ def new_file_sort():
             f_write.writerow(i)
     f.close()
 
-# if __name__ == "__main__":
+#if __name__ == "__main__":
 #     del_create_analytics_folder()
 #     course()
 #     blood_group()
@@ -268,4 +269,4 @@ def new_file_sort():
 #     email_domain_extract()
 #     state()
 #     gender()
-#     dob()
+ #   dob()
