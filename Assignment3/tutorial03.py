@@ -3,7 +3,13 @@ import os
 import re
 import shutil
 
-
+def del_create_analytics_folder():
+    # del the analytics folder including subfolder
+    # mkdir the analytics folder (only mkdir)
+    if os.path.exists('analytics'):
+        shutil.rmtree('analytics')
+    if not os.path.exists('analytics'):
+        os.mkdir('analytics')
 
 def course():
     if not os.path.exists('analytics'):
@@ -252,9 +258,9 @@ def new_file_sort():
             f_write.writerow(i)
     f.close()
 
-# if __name__ == "__main__":
-#     country()
-#     course()
+if __name__ == "__main__":
+    del_create_analytics_folder()
+    course()
 #     blood_group()
 #     new_file_sort()
 #     state()
@@ -262,7 +268,3 @@ def new_file_sort():
 #     state()
 #     gender()
 #     dob()
-
-
-
-
