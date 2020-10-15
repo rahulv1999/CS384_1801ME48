@@ -117,6 +117,7 @@ def email_domain_extract():
                         f_write.writerow(head) 
                     f_write.writerow(l)
                 f.close()
+    csvfile.close()
 
 
 
