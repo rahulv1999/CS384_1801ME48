@@ -258,9 +258,9 @@ def new_file_sort():
             f_write.writerow(i)
     f.close()
 
-if __name__ == "__main__":
-    del_create_analytics_folder()
-    course()
+# if __name__ == "__main__":
+#     del_create_analytics_folder()
+#     course()
 #     blood_group()
 #     new_file_sort()
 #     state()
