@@ -101,16 +101,17 @@ def goto():
 
 def stats():
     print("Total Quiz Questions:",len(df))
-    print("Total Quiz Questions Attempted:",)
-    print("Total Correct Question:")
-    print("Total Wrong Questions:")
-    print("Total Marks: obtained marks/total marks")
+    print("Total Quiz Questions Attempted:",len(quiz_list))
+    print("Total Correct Question:",)
+    print("Total Wrong Questions:",)
+    print("Total Marks: obtained marks/total marks",)
 
 def final_submit():
     while True:
         option =  input(' Do you want to final submit? (y/n) ')
         if option.lower() == 'y':
             print("Submitted Thankyou ...")
+            submit()
             stats()
             print("press Ctrl+Alt+E to export data to csv")
             print("press any key to exit...")                
@@ -120,7 +121,8 @@ def final_submit():
             print("invalid input")
 
 
-
+def submit():
+    c.execute("INSERT INTO project1_marks VALUES (?,?,?)",(roll_no,quiz,total_marks))
 
 
 def export_csv():
