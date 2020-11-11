@@ -18,13 +18,17 @@ def time_dis(t,roll_no,name):
         t -= 1
     
 def question():
-    for q in q_list:
-        ans[q] = dis_q(q)
+    for q in q_list2:
+        if q in q_list:
+            ans[q] = dis_q(q)
+    if len(q_list)==0:
+        print("you have attempted all the questions")
+        final_submit()
+
 
 def dis_q(q_no):
     
-    if q_no < len(df):
-       
+    if q_no <= len(df):
         print(f'Q{q_no + 1})', df.question[q_no],'\n',\
             'option1)',df.option1[q_no],'\n','option2)',df.option2[q_no],'\n',\
                 'option3)',df.option3[q_no],'\n',\
@@ -34,7 +38,8 @@ def dis_q(q_no):
             try:
                 x = int(x)
                 if x in range(1,5):
-                    q_list.pop(q_no)
+                    q_list.remove(q_no)
+                    ans[q_no] =x
                     break
                 else:
                     print("invalid choice enter again")
@@ -69,16 +74,26 @@ def verify_password(stored_password, provided_password):
 
 
 try:
+    conn = sqlite3.connect('project1 quiz cs384.db')
+    c = conn.cursor()
     c.execute("""CREATE TABLE  project1_registration (
                             roll text,
                             pass text,
                             name_stud text,
-                            whatsapp_no number,
+                            whatsapp_no number
 
                                         )""")
+    conn.commit()
+    
+except :
+    print
+
+try:
+    conn = sqlite3.connect('project1 quiz cs384.db')
+    c = conn.cursor()
     c.execute("""CREATE TABLE  project1_marks (
                             roll text,
-                            quiz_num password,
+                            quiz_num number,
                             total_marks number
                                         )""")
     conn.commit()
@@ -96,28 +111,33 @@ def goto():
         except:
             print("invalid input..")
 
-    ans[q_no] = dis_q(q_no)
+    dis_q(q_no)
 
 def total_marks():
     marks = 0
-    for i in len(df):
+    correct =0
+    wrong =0 
+    for i in range(len(df)):
         if i in list(ans.keys()):
             if int(ans[i]) == int(df.correct_option[i]):
                 marks += int(df.marks_correct_ans[i])
+                correct +=1
             else:
                 marks += int(df.marks_wrong_ans[i])
+                wrong +=1
         else:
             if df.compulsory[i] == 'y':
                  marks += int(df.marks_wrong_ans[i])
-    return marks
+    return marks,correct,wrong
 
 
 def stats():
-    print("Total Quiz Questions:",len(df))
+    marks,correct,wrong = total_marks()
+    print("\nTotal Quiz Questions:",len(df))
     print("Total Quiz Questions Attempted:",len(quiz_list))
-    print("Total Correct Question:",)
-    print("Total Wrong Questions:",)
-    print("Total Marks: obtained marks/total marks",total_marks())
+    print("Total Correct Question:",correct)
+    print("Total Wrong Questions:",wrong)
+    print("Total Marks: obtained marks/total marks",marks)
 
 def final_submit():
     while True:
@@ -127,20 +147,37 @@ def final_submit():
             submit()
             stats()
             print("press Ctrl+Alt+E to export data to csv")
-            print("press any key to exit...")                
-        elif option.lower() == 'n':
+            input("press any key to exit...")             
+            break   
+        elif option.lower() == 'n' :
+            if len(q_list)==0:
+                print("""you have attempted all the questions 
+                press Ctrl+Alt+G to goto a question or
+                press any other button to exit""")
+                input("....")
             question()
         else:
             print("invalid input")
 
 
 def submit():
-    c.execute("INSERT INTO project1_marks VALUES (?,?,?)",(roll_no,quiz,total_marks()))
+    marks,_,_ = total_marks()
+    conn = sqlite3.connect('project1 quiz cs384.db')
+    c = conn.cursor()
+    c.execute(f"SELECT * FROM project1_marks WHERE roll={roll_no} and quiz_num = {quiz}")
+    if len(list(c.fetchall()))==0:
+        c.execute("INSERT INTO project1_marks VALUES (?,?,?)",(roll_no,quiz,marks))
+    else:
+        c.execute(f"UPDATE project1_marks SET total_marks={marks} \
+            WHERE roll={roll_no} and quiz_num = {quiz}")
+    conn.commit()
 
 
 def export_csv():
-    c.execute(f"SELECT * FROM project1_marks WHERE quiz=={quiz}")
-    df = pd.DataFrame(c.featchall(),columns = ['roll_no','quiz','total_marks'])
+    conn = sqlite3.connect('project1 quiz cs384.db')
+    c = conn.cursor()
+    c.execute(f"SELECT * FROM project1_marks WHERE quiz_num=={quiz}")
+    df = pd.DataFrame(c.fetchall(),columns = ['roll_no','quiz','total_marks'])
     file = os.path.join(os.path.join(os.getcwd(),'quiz_wise_responses'),f"scores_q{quiz}.csv")
     df.to_csv(file)
 
@@ -166,6 +203,8 @@ if num == '1':
         username = input("Username(Roll no) :")
         roll_no = username
         password = input("Password :")
+        conn = sqlite3.connect('project1 quiz cs384.db')
+        c = conn.cursor()
         c.execute(f"SELECT roll,pass FROM project1_registration WHERE roll is '{username}'")
         data = c.fetchall()
         if len(data)>0 and  username == data[0][0] and verify_password(data[0][1],password):
@@ -219,11 +258,11 @@ c.execute(f"SELECT name_stud FROM project1_registration WHERE roll is '{roll_no}
 name = c.fetchone()
 
 t = int(df.columns[-1].split('=')[-1][:-1])*60 #considering time to be in minutes (m)
-print(t)
+
 t =t-1
-print("name",name,"roll ",roll_no)
-p1 = threading.Thread(target=time_dis , args=[t,roll_no,name[0]])
-p1.start()
+
+# p1 = threading.Thread(target=time_dis , args=[t,roll_no,name[0]])
+# p1.start()
 key_map_dict = {'<ctrl>+<alt>+u':unattempted_q,
                 '<ctrl>+<alt>+g':goto,
                 '<ctrl>+<alt>+f':final_submit,
@@ -232,9 +271,10 @@ key_map_dict = {'<ctrl>+<alt>+u':unattempted_q,
 listener = keyboard.GlobalHotKeys(key_map_dict)
 listener.start()
 q_list = list(range(len(df)))
+q_list2 = list(range(len(df)))
 ans = {}
 question()
-
+# p1.join()
 
 
 
