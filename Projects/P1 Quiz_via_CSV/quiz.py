@@ -98,13 +98,26 @@ def goto():
 
     ans[q_no] = dis_q(q_no)
 
+def total_marks():
+    marks = 0
+    for i in len(df):
+        if i in list(ans.keys()):
+            if int(ans[i]) == int(df.correct_option[i]):
+                marks += int(df.marks_correct_ans[i])
+            else:
+                marks += int(df.marks_wrong_ans[i])
+        else:
+            if df.compulsory[i] == 'y':
+                 marks += int(df.marks_wrong_ans[i])
+    return marks
+
 
 def stats():
     print("Total Quiz Questions:",len(df))
     print("Total Quiz Questions Attempted:",len(quiz_list))
     print("Total Correct Question:",)
     print("Total Wrong Questions:",)
-    print("Total Marks: obtained marks/total marks",)
+    print("Total Marks: obtained marks/total marks",total_marks())
 
 def final_submit():
     while True:
@@ -122,7 +135,7 @@ def final_submit():
 
 
 def submit():
-    c.execute("INSERT INTO project1_marks VALUES (?,?,?)",(roll_no,quiz,total_marks))
+    c.execute("INSERT INTO project1_marks VALUES (?,?,?)",(roll_no,quiz,total_marks()))
 
 
 def export_csv():
