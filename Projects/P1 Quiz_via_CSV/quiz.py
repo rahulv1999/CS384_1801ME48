@@ -139,7 +139,10 @@ def submit():
 
 
 def export_csv():
-    print('export_csv')
+    c.execute(f"SELECT * FROM project1_marks WHERE quiz=={quiz}")
+    df = pd.DataFrame(c.featchall(),columns = ['roll_no','quiz','total_marks'])
+    file = os.path.join(os.path.join(os.getcwd(),'quiz_wise_responses'),f"scores_q{quiz}.csv")
+    df.to_csv(file)
 
 #Login Page
 
