@@ -1,28 +1,14 @@
-import threading 
+import threading
 import time
 import os
 import sys
 from pynput import keyboard
-
-# def p(key):
-#     pass
-# def key_map(key):
-#     # print("u pressed ",key)
-#     # print(type(key))
-#     print(key)
-#     print("unattempted question")
-
-
-
-# # with keyboard.HotKey(keyboard.HotKey.parse('<ctrl>+<alt>+h'),p()) as key:
-
-# listener =  keyboard.Listener(on_press=p,on_release=key_map)
-# listener.start()
-# # listener = keyboard.GlobalHotKeys({'<ctrl>+<alt>+h':key_map})
-# # listener.start()
-# # hotkey = keyboard.HotKey(
-# #     keyboard.HotKey.parse('<ctrl>+<alt>+h'),
-# #     key_map)
-# time.sleep(10)
-
+t_start = 1
+def time_dis(t,roll_no,name):
+    while t+1 and t_start:
+        mins, secs = divmod(t, 60)
+        timer = '{:02d}:{:02d}'.format(mins, secs)
+        os.system(f"title {roll_no}          {name.upper()}         {timer}")
+        time.sleep(1)
+        t -= 1
 

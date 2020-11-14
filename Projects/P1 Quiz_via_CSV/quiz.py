@@ -9,8 +9,9 @@ from pynput.keyboard import Key, Controller,Listener
 key_board = Controller()
 conn = sqlite3.connect('project1 quiz cs384.db')
 c = conn.cursor()
+t_start = 1
 def time_dis(t,roll_no,name):
-    while t+1:
+    while t+1 and t_start:
         mins, secs = divmod(t, 60)
         timer = '{:02d}:{:02d}'.format(mins, secs)
         os.system(f"title {roll_no}          {name.upper()}         {timer}")
@@ -21,8 +22,10 @@ def question():
     for q in q_list2:
         if q in q_list:
             a = dis_q(q)
-            if(a):
+            if a > 0:
                 ans[q]=a
+            elif a == -1:
+                pass
             else:
                 goto(0)
     if len(q_list)==0:
@@ -39,17 +42,11 @@ def next(q_no):
     else:
         return 0
 
-def p(key):
-    pass
-
-def p2(key):
-    print(key)
-    print("try this")
-
 def dis_q(q_no,g=0):
 
     if q_no <= len(df):
         # input("press any key for the question..")
+        os.system('cls||clear')
         print('\n',f'Q{q_no + 1})', df.question[q_no],'\n',\
             'option1)',df.option1[q_no],'\n','option2)',df.option2[q_no],'\n',\
                 'option3)',df.option3[q_no],'\n',\
@@ -66,11 +63,14 @@ def dis_q(q_no,g=0):
             except:
                 pass
             pat = re.compile(r'ṅ')
+            pat_un = re.compile(r'ū')
             if re.match(pat,x):
                 if not g:
                     return 0
                 else:
                     goto(0)
+            if re.match(pat_un,x):
+                return -1
             try:
                 x = int(x)
                 if x in range(1,5):
@@ -149,21 +149,15 @@ except :
 
 
 def unattempted_q():
-    print('\n',f'there are {len(q_list)} unattempted question(s) ')
+    # key_board.press(Key.enter)
+    os.system('cls||clear')
+    print('\n',f'There are {len(q_list)} unattempted question(s)','\npress enter key to continue....')
+    # input("press any key to continue...")
+
 
 def goto(f=1):
     if f:
         key_board.press(Key.enter)
-        print("\n enter the question number",end='\r')
-        # while True:
-        #     k = input(("\nenter the question numer : "))
-        #     try:
-        #         q_no = int(k)
-        #         break
-        #     except:
-        #         print("invalid input..")
-        # dis_q(q_no-1)
-        # pass
     else:
         l = 0
         while True:
@@ -171,15 +165,18 @@ def goto(f=1):
             if l:
                 k = input(("\nenter the question number : "))
             else:
-                k = input("here..")
+                k = input("enter the question number here :")
 
             try:
                 q_no = int(k)
-                break
+                if q_no <= len(df):
+                    dis_q(int(q_no)-1,1)
+                    break
+                else:
+                    print(f"there are only {len(df)} questions, choose accordingly..")
             except:
                 l=1
                 print("invalid input..")
-        dis_q(int(q_no)-1,1)
 
 def total_marks():
     marks = 0
@@ -215,14 +212,20 @@ def final_submit():
             submit()
             stats()
             print("press Ctrl+Alt+E to export data to csv")
+            listener = keyboard.GlobalHotKeys({'<ctrl>+<alt>+e':export_csv})
+            listener.start()
             input("press any key to exit...")
+            listener.stop()
             break
         elif option.lower() == 'n' :
             if len(q_list)==0:
                 print("""you have attempted all the questions
 press Ctrl+Alt+G to goto a question or
-press any other button to exit""",end="")
+press enter exit""",end="")
+                listener = keyboard.GlobalHotKeys({'<ctrl>+<alt>+g':goto})
+                listener.start()
                 input("....")
+                listener.stop()
                 break
             if len(q_list):
                 question()
@@ -305,51 +308,59 @@ print("\nChoose your quiz")
 quiz_list = os.listdir(os.path.join(os.getcwd(),'quiz_wise_questions'))
 quiz_name = [i.split('.')[0] for i in quiz_list]
 while True:
-    try:
-        for i,name in enumerate(quiz_name):
-            print(f'{i+1}. {name}')
-        print(f"{len(quiz_name)+1}. Quit")
-        quiz = int(input("Enter your choice to continue : "))
-        if quiz<= len(quiz_name)+1:
-            break
-        else:
+    while True:
+        try:
+            for i,name in enumerate(quiz_name):
+                print(f'{i+1}. {name}')
+            print(f"{len(quiz_name)+1}. Quit")
+            quiz = int(input("Enter your choice to continue : "))
+            if quiz<= len(quiz_name)+1:
+                break
+            else:
+                print("Invalid input!!")
+        except :
             print("Invalid input!!")
-    except :
-        print("Invalid input!!")
 
-if quiz == len(quiz_name) + 1:
-    print("Thank You")
-    exit()
+    if quiz == len(quiz_name) + 1:
+        print("Thank You")
+        exit()
 
-print('\n',f"{ quiz_name[int(quiz)-1]} loaded!!",'\n')
+    print('\n',f"{ quiz_name[int(quiz)-1]} loaded!!",'\n')
 
 
-file = os.path.join(os.path.join(os.getcwd(),'quiz_wise_questions'),quiz_list[quiz-1])
+    file = os.path.join(os.path.join(os.getcwd(),'quiz_wise_questions'),quiz_list[quiz-1])
 
-df = pd.read_csv(file)
+    df = pd.read_csv(file)
 
-c.execute(f"SELECT name_stud FROM project1_registration WHERE roll is '{roll_no}' ")
-name = c.fetchone()
+    c.execute(f"SELECT name_stud FROM project1_registration WHERE roll is '{roll_no}' ")
+    name = c.fetchone()
 
-t = int(df.columns[-1].split('=')[-1][:-1])*60 #considering time to be in minutes (m)
+    t = int(df.columns[-1].split('=')[-1][:-1])*60 #considering time to be in minutes (m)
 
-t =t-1
+    t =t-1
 
-key_map_dict = {'<ctrl>+<alt>+u':unattempted_q,
-                '<ctrl>+<alt>+g':goto,
-                '<ctrl>+<alt>+f':final_submit,
-                '<ctrl>+<alt>+e':export_csv,
-               }
-# listener = keyboard.GlobalHotKeys(key_map_dict)
-# # listener.start()
-# # listener =  keyboard.Listener(on_press=p2,on_release=p)
-# # listener.start()
-# lis(1,listener)
-q_list = list(range(len(df)))
-q_list2 = list(range(len(df)))
-ans = {}
-question()
-# p1.join()
+    key_map_dict = {'<ctrl>+<alt>+u':unattempted_q,
+                    '<ctrl>+<alt>+g':goto,
+                    '<ctrl>+<alt>+f':final_submit,
+                    '<ctrl>+<alt>+e':export_csv,
+                }
+
+    q_list = list(range(len(df)))
+    q_list2 = list(range(len(df)))
+    ans = {}
+
+    ls = keyboard.GlobalHotKeys({
+                    '<ctrl>+<alt>+u':unattempted_q,
+                    '<ctrl>+<alt>+f':final_submit,
+                })
+    ls.start()
+    t_start = 1
+    t1 = threading.Thread(target=time_dis, args=[t,roll_no,name[0]])
+    t1.start()
+    question()
+    t_start = 0
+    t1.join()
+    ls.stop()
 
 
 
