@@ -3,6 +3,10 @@ import pandas as pd
 import os
 import csv
 import shutil
+
+# HAVE USED WALRUS OPERATER THAT ONLY RUNS IN PTHON 3.8 OR ABOVE 
+# ANY SYSTAX ERROR WILL BE JUST DUE TO THAT
+
 os.getcwd()
 path = 'grades'
 path = os.path.join(os.getcwd(),path)
