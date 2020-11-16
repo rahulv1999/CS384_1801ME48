@@ -4,7 +4,7 @@ import os
 import csv
 import shutil
 
-# HAVE USED WALRUS OPERATER THAT ONLY RUNS IN PTHON 3.8 OR ABOVE 
+# HAVE USED WALRUS OPERATER THAT ONLY RUNS IN PTHON 3.8 OR ABOVE
 # ANY SYSTAX ERROR WILL BE JUST DUE TO THAT
 
 os.getcwd()
@@ -49,7 +49,7 @@ for i,roll in enumerate(df.roll):
            csvw = csv.writer(f)
            csvw.writerow(["Misc values"])
            csvw.writerow(columns)
-           f.close() 
+           f.close()
         with open(name,'a',newline='') as f:
             csvw = csv.writer(f)
             csvw.writerow(row)
@@ -68,15 +68,15 @@ for i,roll in enumerate(df.roll):
            csvw = csv.writer(f)
            csvw.writerow(["Misc values"])
            csvw.writerow(columns)
-           f.close() 
+           f.close()
         with open(name,'a',newline='') as f:
             csvw = csv.writer(f)
             csvw.writerow(row)
 
-    
 
-    
-#for rollno_overall.csv this depends upon above code 
+
+
+#for rollno_overall.csv this depends upon above code
 
 for file in os.listdir(path):
     if file=='misc.csv':
@@ -103,7 +103,7 @@ for file in os.listdir(path):
     with open(os.path.join(path,newfile),'w',newline='') as csvfile:
         csvr = csv.writer(csvfile)
         rno = file.split('_')[0]
-        csvr.writerow([f'Roll: {rno}'])   
+        csvr.writerow([f'Roll: {rno}'])
         csvr.writerow(['Semester','Semester Credits','Semester Credits Cleared','SPI','Total Credits','Total Credits Cleared','CPI'])
         for sem in l:
             s = df[df.Sem ==sem]
@@ -117,27 +117,27 @@ for file in os.listdir(path):
                         cleared_credits = cleared_credits + int(credits)
                 else:
                     print("Grade error ",grades)
-                    
+
             total_credit_cleared = total_credit_cleared + cleared_credits
             sum_spi = 0
             for g,c in zip(s.Grade,s.Credits):
                 sum_spi = sum_spi  + int(c) * int(grade[g])
-            
+
             spi = sum_spi/sem_credit
             spi_list.append(spi)
             sem_credits_list.append(sem_credit)
             cpi_sum = 0
             for c,g in zip(sem_credits_list,spi_list):
                 cpi_sum = cpi_sum + c*g
-            
+
             cpi = cpi_sum/sum(sem_credits_list)
             csvr.writerow([sem,sem_credit,cleared_credits,round(spi,2),total_credit,total_credit_cleared,round(cpi,2)])
 
 
 
 
-        
-        
+
+
 
 
 
