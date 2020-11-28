@@ -93,7 +93,7 @@ def rename_Sherlock(folder_name):
 
 
 
-def rename_How_I_Met_Your_Mother(folder_name):
+def rename_How_I_Met_Your_Mother(folder_name = "How I Met Your Mother"):
     path = os.path.join(os.getcwd(),os.path.join('Subtitles',folder_name))
     for file in os.listdir(path):
         try:
@@ -109,10 +109,11 @@ def rename_How_I_Met_Your_Mother(folder_name):
             file_name = name[0] + " - Season " + season + " Episode " + episode + " - " + episode_name + "." + ext
             file_name_old = os.path.join(path,file)
             file_name = os.path.join(path,file_name)
-            try:
-                os.rename(file_name_old,file_name)
-            except:
-                os.remove(file_name_old)
+            print(file_name)
+            # try:
+            #     os.rename(file_name_old,file_name)
+            # except:
+            #     os.remove(file_name_old)
         except:
             pass
 
@@ -145,3 +146,4 @@ def rename_Suits(folder_name):
 
 
 
+rename_How_I_Met_Your_Mother()

@@ -17,6 +17,8 @@ def time_dis(t,roll_no,name):
         os.system(f"title {roll_no}          {name.upper()}         {timer}")
         time.sleep(1)
         t -= 1
+    if not t_start:
+         os.system(f"title {roll_no}          {name.upper()}         00:00")
 
 def question():
     for q in q_list2:
@@ -237,8 +239,9 @@ def submit():
     marks,_,_ = total_marks()
     conn = sqlite3.connect('project1 quiz cs384.db')
     c = conn.cursor()
-    c.execute(f"SELECT * FROM project1_marks WHERE roll={roll_no} and quiz_num = {quiz}")
-    if len(list(c.fetchall()))==0:
+    c.execute("SELECT roll,quiz_num FROM project1_marks")
+    d = list(c.fetchall())
+    if (roll_no,quiz) not in d:
         c.execute("INSERT INTO project1_marks VALUES (?,?,?)",(roll_no,quiz,marks))
     else:
         c.execute(f"UPDATE project1_marks SET total_marks={marks} \
@@ -289,11 +292,29 @@ if num == '1':
 else:
     while True:
         try:
-            name = input("Name:")
-            roll = input("Roll no:")
+            name = ''
+            roll = ''
+            whatsapp_no = 0
+            password = ''
+            while True:
+                name = input("Name:")
+                if len(name):
+                    break
+            while True:
+                roll = input("Roll no:")
+                if len(roll):
+                    break
+            while True:
+                whatsapp_no = input("Whatsapp No.:")
+                if re.fullmatch(r'\d{10}',whatsapp_no):
+                    break
+                else:
+                    print('enter a 10 digit Whatsapp No')
+            while True:
+                password = input("Password:")
+                if len(password):
+                    break
             roll_no = roll
-            whatsapp_no = int(input("Whatsapp No.:"))
-            password = input("Password:")
             password = hash_password(password)
             c.execute("INSERT INTO project1_registration VALUES (?,?,?,?)",(roll,password,name,whatsapp_no))
             conn.commit()
