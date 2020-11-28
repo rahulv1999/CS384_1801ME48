@@ -42,7 +42,9 @@ def group_allocation(filename, number_of_groups):
         if start + std > n:
             l = start + std - n
             group[i][:l] += 1
-        start = (start + std )%12
+            start = l
+        else:
+            start = (start + std )%12
     t_group = np.transpose(group)
 
     #stats file
@@ -77,5 +79,5 @@ def group_allocation(filename, number_of_groups):
 
 
 filename = "Btech_2020_master_data.csv"
-number_of_groups = 12
+number_of_groups = 10
 group_allocation(filename, number_of_groups)
