@@ -16,9 +16,21 @@ def group_allocation(filename, number_of_groups):
     branch_name = list(branch_list.keys())[:eql_br]
     branch_name.sort()
     branch_name += list(branch_list.keys())[eql_br:]
+    branch_name = [i.upper() for i in branch_name]
     branchSize = list(branch_list.values())
+    #strength csv
+    strength = pd.DataFrame()
+    strength['BRANCH_CODE'] = np.array(branch_name)
+    strength['STRENGTH'] = np.array(branchSize)
+    strength.to_csv('groups/branch_strength.csv',index = False)
     left = []
     group = []
+
+    for i in branch_name:
+        df_temp = df[df.branch == i].copy()
+        df_temp = df_temp.drop('branch',axis=1)
+        df_temp.to_csv(f'groups/{i}.csv',index = False)
+
     for i,size in enumerate(branchSize):
         l = [int(size/n) for i in range(n)]
         group.append(l)
