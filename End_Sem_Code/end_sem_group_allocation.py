@@ -44,7 +44,7 @@ def group_allocation(filename, number_of_groups):
             group[i][:l] += 1
             start = l
         else:
-            start = (start + std )%12
+            start = (start + std )
     t_group = np.transpose(group)
 
     #stats file
